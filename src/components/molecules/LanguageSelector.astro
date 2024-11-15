@@ -1,0 +1,95 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const languages = [
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'km', name: 'ខ្មែរ', flag: '🇰🇭' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' }
+];
+
+const currentPath = Astro.url.pathname;
+const currentLang = currentPath.split('/')[1] || 'en';
+---
+
+<div class:list={["relative inline-block text-left", className]}>
+  <div>
+    <button
+      type="button"
+      id="language-menu-button"
+      class="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+      aria-expanded="false"
+      aria-haspopup="true"
+    >
+      <span>{languages.find(lang => lang.code === currentLang)?.flag}</span>
+      <span class="hidden sm:inline">{languages.find(lang => lang.code === currentLang)?.name}</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+  </div>
+
+  <div
+    id="language-menu"
+    class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="language-menu-button"
+    tabindex="-1"
+  >
+    <div class="py-1" role="none">
+      {languages.map(lang => (
+        <a
+          href={`/${lang.code}${currentPath.replace(/^\/[a-z]{2}/, '')}`}
+          class:list={[
+            "flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700",
+            { "bg-gray-50 dark:bg-gray-700": lang.code === currentLang }
+          ]}
+          role="menuitem"
+          tabindex="-1"
+        >
+          <span>{lang.flag}</span>
+          <span>{lang.name}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  const button = document.getElementById('language-menu-button');
+  const menu = document.getElementById('language-menu');
+
+  function toggleMenu() {
+    const isExpanded = button?.getAttribute('aria-expanded') === 'true';
+    button?.setAttribute('aria-expanded', (!isExpanded).toString());
+    menu?.classList.toggle('hidden');
+  }
+
+  function closeMenu() {
+    button?.setAttribute('aria-expanded', 'false');
+    menu?.classList.add('hidden');
+  }
+
+  button?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!menu?.contains(e.target as Node)) {
+      closeMenu();
+    }
+  });
+
+  // Close on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMenu();
+    }
+  });
+</script>

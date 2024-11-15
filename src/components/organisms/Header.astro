@@ -1,0 +1,107 @@
+---
+import Button from '../atoms/Button.astro';
+import ThemeToggle from '../atoms/ThemeToggle.astro';
+import CartDrawer from '../molecules/CartDrawer.astro';
+import LanguageSelector from '../molecules/LanguageSelector.astro';
+import { useI18n } from '../../utils/i18n';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+const { t, translatePath } = useI18n(Astro.url);
+
+const navigation = [
+  { name: t('common.menu.home'), href: translatePath('/') },
+  { name: t('common.menu.products'), href: translatePath('/products') },
+  { name: t('common.menu.about'), href: translatePath('/about') },
+  { name: t('common.menu.contact'), href: translatePath('/contact') }
+];
+---
+
+<header class:list={[
+  "w-full bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700",
+  className
+]}>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <div class="flex-shrink-0">
+        <a href={translatePath('/')} class="text-xl font-bold text-purple-600 dark:text-purple-400">Logo</a>
+      </div>
+      
+      <nav class="hidden md:flex space-x-8">
+        {navigation.map((item) => (
+          <a
+            href={item.href}
+            class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium"
+          >
+            {item.name}
+          </a>
+        ))}
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <LanguageSelector />
+        <ThemeToggle />
+        <button
+          id="cart-button"
+          class="relative p-2"
+        >
+          <span class="sr-only">{t('common.buttons.cart')}</span>
+          <svg
+            class="h-6 w-6 text-gray-600 dark:text-gray-300"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          <span
+            id="cart-count"
+            class="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-purple-600 text-white text-xs flex items-center justify-center"
+          >
+            0
+          </span>
+        </button>
+        <div id="auth-buttons">
+          <Button variant="outline" size="sm" href={translatePath('/login')}>{t('common.buttons.signIn')}</Button>
+          <Button size="sm" href={translatePath('/register')}>{t('common.buttons.signUp')}</Button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <CartDrawer />
+</header>
+
+<script>
+  import { cartItems, isCartOpen } from '../../store/cart';
+  import { authStore } from '../../store/auth';
+
+  // Cart functionality
+  cartItems.subscribe(items => {
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+      const count = Object.values(items).reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = count.toString();
+    }
+  });
+
+  const cartButton = document.getElementById('cart-button');
+  cartButton?.addEventListener('click', () => {
+    isCartOpen.set(true);
+  });
+
+  // Auth state management
+  const authButtons = document.getElementById('auth-buttons');
+  authStore.subscribe(({ isAuthenticated }) => {
+    if (authButtons) {
+      authButtons.style.display = isAuthenticated ? 'none' : 'flex';
+    }
+  });
+</script>

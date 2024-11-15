@@ -1,0 +1,86 @@
+{
+  "common": {
+    "menu": {
+      "home": "首页",
+      "products": "产品",
+      "about": "关于我们",
+      "contact": "联系我们"
+    },
+    "buttons": {
+      "signIn": "登录",
+      "signUp": "注册",
+      "logout": "退出",
+      "addToCart": "加入购物车",
+      "checkout": "结算",
+      "viewMore": "查看更多"
+    },
+    "footer": {
+      "company": "公司",
+      "resources": "资源",
+      "legal": "法律",
+      "newsletter": "新闻订阅"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "现代网络开发",
+      "subtitle": "体验类型安全的表单、强大的验证和精美的设计。"
+    },
+    "features": {
+      "title": "功能特点",
+      "modernStack": {
+        "title": "现代技术栈",
+        "description": "使用 Astro、React 和 Tailwind CSS 构建，实现最佳性能和开发体验。"
+      },
+      "typeSafeForms": {
+        "title": "类型安全表单",
+        "description": "集成 React Hook Form 和 Zod，实现强大的表单验证和类型安全。"
+      },
+      "responsiveDesign": {
+        "title": "响应式设计",
+        "description": "完全响应式布局，在所有设备和屏幕尺寸上都能完美展现。"
+      },
+      "darkMode": {
+        "title": "深色模式",
+        "description": "内置深色模式支持，可检测系统偏好并手动切换。"
+      }
+    }
+  },
+  "products": {
+    "title": "我们的产品",
+    "subtitle": "浏览我们的优质产品系列",
+    "filters": {
+      "category": "类别",
+      "price": "价格",
+      "brand": "品牌",
+      "sort": "排序方式"
+    },
+    "stock": {
+      "inStock": "有货",
+      "lowStock": "仅剩 {{count}} 件",
+      "outOfStock": "缺货"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "登录",
+      "subtitle": "登录您的账户",
+      "username": "用户名",
+      "password": "密码",
+      "submit": "登录",
+      "forgotPassword": "忘记密码？",
+      "noAccount": "还没有账户？"
+    },
+    "register": {
+      "title": "创建账户",
+      "subtitle": "立即加入我们，获取所有功能",
+      "firstName": "名字",
+      "lastName": "姓氏",
+      "email": "电子邮箱",
+      "password": "密码",
+      "confirmPassword": "确认密码",
+      "submit": "创建账户",
+      "haveAccount": "已有账户？"
+    }
+  }
+}

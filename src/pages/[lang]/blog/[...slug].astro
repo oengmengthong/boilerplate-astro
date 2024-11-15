@@ -1,0 +1,66 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = [
+    {
+      slug: 'first-post',
+      data: {
+        title: 'First Blog Post',
+        publishDate: '2024-03-20',
+        description: 'This is our first blog post.',
+        content: 'Welcome to our blog! This is our first post...',
+        author: 'John Doe',
+        tags: ['web development', 'astro', 'seo']
+      }
+    },
+    {
+      slug: 'second-post',
+      data: {
+        title: 'Second Blog Post',
+        publishDate: '2024-03-21',
+        description: 'This is our second blog post.',
+        content: 'Here is our second post with more content...',
+        author: 'Jane Smith',
+        tags: ['javascript', 'tutorial']
+      }
+    }
+  ];
+
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<Layout 
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  article={{
+    publishedTime: post.data.publishDate,
+    author: post.data.author,
+    tags: post.data.tags
+  }}
+>
+  <article class="max-w-3xl mx-auto">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900">{post.data.title}</h1>
+      <time datetime={post.data.publishDate} class="mt-2 text-gray-600 block">
+        {new Date(post.data.publishDate).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}
+      </time>
+    </div>
+    
+    <div class="mt-12 prose prose-purple mx-auto">
+      <p>{post.data.content}</p>
+    </div>
+  </article>
+</Layout>

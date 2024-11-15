@@ -1,0 +1,86 @@
+{
+  "common": {
+    "menu": {
+      "home": "ホーム",
+      "products": "商品",
+      "about": "会社概要",
+      "contact": "お問い合わせ"
+    },
+    "buttons": {
+      "signIn": "ログイン",
+      "signUp": "新規登録",
+      "logout": "ログアウト",
+      "addToCart": "カートに追加",
+      "checkout": "購入手続き",
+      "viewMore": "もっと見る"
+    },
+    "footer": {
+      "company": "会社情報",
+      "resources": "リソース",
+      "legal": "法的情報",
+      "newsletter": "ニュースレター"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "モダンウェブ開発",
+      "subtitle": "型安全なフォーム、堅牢な検証、美しいデザインをご体験ください。"
+    },
+    "features": {
+      "title": "特徴",
+      "modernStack": {
+        "title": "モダンスタック",
+        "description": "Astro、React、Tailwind CSSを使用し、最適なパフォーマンスと開発体験を実現。"
+      },
+      "typeSafeForms": {
+        "title": "型安全フォーム",
+        "description": "React Hook FormとZodを統合し、堅牢なフォーム検証と型安全性を実現。"
+      },
+      "responsiveDesign": {
+        "title": "レスポンシブデザイン",
+        "description": "すべてのデバイスと画面サイズで美しく動作する完全レスポンシブレイアウト。"
+      },
+      "darkMode": {
+        "title": "ダークモード",
+        "description": "システム設定の検出と手動切り替えに対応したダークモード。"
+      }
+    }
+  },
+  "products": {
+    "title": "商品一覧",
+    "subtitle": "高品質な商品をご覧ください",
+    "filters": {
+      "category": "カテゴリー",
+      "price": "価格",
+      "brand": "ブランド",
+      "sort": "並び替え"
+    },
+    "stock": {
+      "inStock": "在庫あり",
+      "lowStock": "残り{{count}}点",
+      "outOfStock": "在庫切れ"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "ログイン",
+      "subtitle": "アカウントにログイン",
+      "username": "ユーザー名",
+      "password": "パスワード",
+      "submit": "ログイン",
+      "forgotPassword": "パスワードをお忘れですか？",
+      "noAccount": "アカウントをお持ちでない方"
+    },
+    "register": {
+      "title": "アカウント作成",
+      "subtitle": "今すぐ登録して、すべての機能にアクセス",
+      "firstName": "名",
+      "lastName": "姓",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "confirmPassword": "パスワード（確認）",
+      "submit": "アカウント作成",
+      "haveAccount": "すでにアカウントをお持ちの方"
+    }
+  }
+}

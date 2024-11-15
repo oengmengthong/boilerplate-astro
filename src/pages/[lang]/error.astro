@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ErrorFallback from '../components/ErrorFallback.astro';
+
+const { error, code, message } = Astro.props;
+
+// Set the correct status code
+Astro.response.status = code || 500;
+---
+
+<Layout title={`Error ${code || 500}`}>
+  <ErrorFallback error={error} code={code} message={message} />
+</Layout>

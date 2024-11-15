@@ -1,0 +1,68 @@
+---
+interface Props {
+  error?: Error;
+  code?: number;
+  message?: string;
+}
+
+const { error, code = 500, message = "Something went wrong" } = Astro.props;
+
+const illustrations = {
+  404: "/illustrations/404.svg",
+  500: "/illustrations/500.svg",
+};
+
+const titles = {
+  404: "Page Not Found",
+  500: "Server Error",
+};
+
+const messages = {
+  404: "The page you're looking for doesn't exist or has been moved.",
+  500: "We're experiencing some technical difficulties. Please try again later.",
+};
+---
+
+<div class="min-h-[500px] flex items-center justify-center p-4">
+  <div class="text-center">
+    <div class="mb-8">
+      <img
+        src={illustrations[code as keyof typeof illustrations] || illustrations[500]}
+        alt={`${code} illustration`}
+        class="w-64 h-64 mx-auto"
+      />
+    </div>
+    
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+      {titles[code as keyof typeof titles] || titles[500]}
+    </h1>
+    
+    <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+      {message || messages[code as keyof typeof messages] || messages[500]}
+    </p>
+
+    {error && import.meta.env.DEV && (
+      <pre class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg text-left overflow-x-auto">
+        <code class="text-sm text-gray-800 dark:text-gray-200">
+          {error.stack}
+        </code>
+      </pre>
+    )}
+    
+    <div class="flex justify-center gap-4">
+      <a
+        href="/"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+      >
+        Go back home
+      </a>
+      
+      <button
+        onclick="window.location.reload()"
+        class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+      >
+        Try again
+      </button>
+    </div>
+  </div>
+</div>

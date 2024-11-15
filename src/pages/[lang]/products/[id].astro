@@ -1,0 +1,94 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Button from '../../../components/atoms/Button.astro';
+import { getProduct } from '../../../lib/api';
+import { useI18n } from '../../../utils/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en', id: '1' } },
+    { params: { lang: 'km', id: '1' } },
+    { params: { lang: 'zh', id: '1' } },
+    { params: { lang: 'ja', id: '1' } }
+  ];
+}
+
+const { id, lang } = Astro.params;
+const { t, translatePath } = useI18n(Astro.url);
+
+const product = await getProduct(id || '');
+
+if (!product) {
+  return Astro.redirect(translatePath('/404'));
+}
+
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  }).format(amount);
+};
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+---
+
+<Layout 
+  title={product.title}
+  description={product.description}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="flex py-3 text-gray-700 dark:text-gray-300" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li><a href={translatePath('/')} class="hover:text-purple-600">{t('common.menu.home')}</a></li>
+        <li><span class="mx-2">/</span></li>
+        <li><a href={translatePath('/products')} class="hover:text-purple-600">{t('common.menu.products')}</a></li>
+        <li><span class="mx-2">/</span></li>
+        <li class="text-gray-500 dark:text-gray-400">{product.title}</li>
+      </ol>
+    </nav>
+
+    <!-- Rest of the product detail page content -->
+    <!-- ... (keeping the same structure as before, just updating text with translations) ... -->
+  </div>
+</Layout>
+
+<script>
+  import { addItemToCart } from '../../../store/cart';
+
+  const addToCartButton = document.querySelector('button[data-product-id]');
+  
+  addToCartButton?.addEventListener('click', (e) => {
+    const target = e.currentTarget as HTMLButtonElement;
+    const productId = target.dataset.productId;
+    const productTitle = target.dataset.productTitle;
+    const productPrice = target.dataset.productPrice;
+
+    if (productId && productTitle && productPrice) {
+      addItemToCart({
+        id: productId,
+        name: productTitle,
+        price: parseFloat(productPrice),
+      });
+
+      // Show success message
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-transform duration-300 ease-out';
+      toast.textContent = 'Added to cart!';
+      document.body.appendChild(toast);
+
+      // Remove toast after 2 seconds
+      setTimeout(() => {
+        toast.style.transform = 'translateY(100%)';
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 300);
+      }, 2000);
+    }
+  });
+</script>

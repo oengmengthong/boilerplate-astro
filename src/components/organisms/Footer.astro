@@ -1,0 +1,65 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const footerLinks = {
+  Company: [
+    { name: 'About', href: '/about' },
+    { name: 'Careers', href: '/careers' },
+    { name: 'Contact', href: '/contact' }
+  ],
+  Resources: [
+    { name: 'Blog', href: '/blog' },
+    { name: 'Documentation', href: '/docs' },
+    { name: 'Help Center', href: '/help' }
+  ],
+  Legal: [
+    { name: 'Privacy', href: '/privacy' },
+    { name: 'Terms', href: '/terms' },
+    { name: 'Cookie Policy', href: '/cookies' }
+  ]
+};
+---
+
+<footer class:list={[
+  "bg-gray-50 border-t border-gray-200",
+  className
+]}>
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h2 class="text-xl font-bold text-purple-600">Logo</h2>
+        <p class="mt-4 text-sm text-gray-600">
+          Making the web faster, one component at a time.
+        </p>
+      </div>
+      
+      {Object.entries(footerLinks).map(([category, links]) => (
+        <div>
+          <h3 class="text-sm font-semibold text-gray-900">{category}</h3>
+          <ul class="mt-4 space-y-2">
+            {links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    
+    <div class="mt-8 border-t border-gray-200 pt-8">
+      <p class="text-sm text-gray-600">
+        © {new Date().getFullYear()} Your Company. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>

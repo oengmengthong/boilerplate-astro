@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactForm from '../../components/organisms/ContactForm';
+import { useI18n } from '../../utils/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'km' } },
+    { params: { lang: 'zh' } },
+    { params: { lang: 'ja' } }
+  ];
+}
+
+const { lang } = Astro.params;
+const { t } = useI18n(Astro.url);
+---
+
+<Layout 
+  title={t('common.menu.contact')}
+  description="Get in touch with our team"
+>
+  <div class="max-w-xl mx-auto">
+    <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+      {t('common.menu.contact')}
+    </h1>
+    <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300 text-center">
+      Have questions? We'd love to hear from you.
+    </p>
+
+    <div class="mt-12">
+      <ContactForm client:load />
+    </div>
+  </div>
+</Layout>

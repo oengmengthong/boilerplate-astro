@@ -1,0 +1,88 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/atoms/Button.astro';
+import Card from '../../components/molecules/Card.astro';
+import NewsletterForm from '../../components/organisms/NewsletterForm';
+import { useI18n } from '../../utils/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'km' } },
+    { params: { lang: 'zh' } },
+    { params: { lang: 'ja' } }
+  ];
+}
+
+const { lang } = Astro.params;
+const { t, translatePath } = useI18n(Astro.url);
+
+const features = [
+  {
+    title: t('home.features.modernStack.title'),
+    description: t('home.features.modernStack.description')
+  },
+  {
+    title: t('home.features.typeSafeForms.title'),
+    description: t('home.features.typeSafeForms.description')
+  },
+  {
+    title: t('home.features.responsiveDesign.title'),
+    description: t('home.features.responsiveDesign.description')
+  },
+  {
+    title: t('home.features.darkMode.title'),
+    description: t('home.features.darkMode.description')
+  }
+];
+---
+
+<Layout 
+  title={t('home.hero.title')}
+  description={t('home.hero.subtitle')}
+>
+  <!-- Hero Section -->
+  <div class="text-center">
+    <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
+      {t('home.hero.title')}
+    </h1>
+    <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+      {t('home.hero.subtitle')}
+    </p>
+    <div class="mt-10 flex items-center justify-center gap-x-6">
+      <Button href={translatePath('/register')} size="lg">
+        {t('common.buttons.signUp')}
+      </Button>
+      <Button href={translatePath('/products')} variant="outline" size="lg">
+        {t('common.buttons.viewMore')}
+      </Button>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="mt-24">
+    <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white">
+      {t('home.features.title')}
+    </h2>
+    <div class="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {features.map((feature) => (
+        <Card title={feature.title} description={feature.description} />
+      ))}
+    </div>
+  </div>
+
+  <!-- Newsletter Section -->
+  <div class="mt-24">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+        {t('common.footer.newsletter')}
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+        Stay updated with our latest news and updates.
+      </p>
+    </div>
+    <div class="mt-8 max-w-xl mx-auto">
+      <NewsletterForm client:load />
+    </div>
+  </div>
+</Layout>

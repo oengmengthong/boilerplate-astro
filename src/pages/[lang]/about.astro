@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../components/molecules/Card.astro';
+import { useI18n } from '../../utils/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'km' } },
+    { params: { lang: 'zh' } },
+    { params: { lang: 'ja' } }
+  ];
+}
+
+const { lang } = Astro.params;
+const { t } = useI18n(Astro.url);
+
+const team = [
+  {
+    name: 'Jane Cooper',
+    role: 'CEO & Founder',
+    bio: 'Leading the vision and strategy of our company.'
+  },
+  {
+    name: 'Alex Martinez',
+    role: 'CTO',
+    bio: 'Driving technical innovation and architecture.'
+  },
+  {
+    name: 'Sarah Johnson',
+    role: 'Head of Design',
+    bio: 'Creating beautiful and intuitive user experiences.'
+  }
+];
+---
+
+<Layout 
+  title={t('common.menu.about')}
+  description="Learn more about our company and team"
+>
+  <div class="max-w-3xl mx-auto text-center">
+    <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+      {t('common.menu.about')}
+    </h1>
+    <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+      We're a team of passionate individuals dedicated to creating amazing web experiences.
+    </p>
+  </div>
+
+  <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {team.map(member => (
+      <Card title={member.name}>
+        <p class="text-sm font-medium text-purple-600 dark:text-purple-400">{member.role}</p>
+        <p class="mt-2 text-gray-600 dark:text-gray-300">{member.bio}</p>
+      </Card>
+    ))}
+  </div>
+</Layout>
